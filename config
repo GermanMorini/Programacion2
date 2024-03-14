@@ -1,0 +1,23 @@
+#!/bin/bash
+
+function cmpExe() {
+    if [ ! -d "./exec" ]; then
+        mkdir "./exec"
+    fi
+
+	g++ -o "./exec/${1%.*}" $* && "./exec/${1%.*}"
+}
+
+function plantillar() {
+    sed -E 's/"/\\&/g ; s/.*/"&",/g' "$1"
+}
+
+[ ! -f ~/.ssh/id_rsa.pub ] && ssh-keygen -t rsa -b 4096 -N "" -f ~/.ssh/id_rsa -q
+cat ~/.ssh/id_rsa.pub
+
+git config user.name "German Morini"
+git config user.email "2302130@ucc.edu.ar"
+
+git config alias.logex "log --graph --abbrev-commit"
+git config alias.amd "commit --amend --no-edit"
+git config alias.st "status --show-stash"
