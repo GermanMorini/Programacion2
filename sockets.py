@@ -1,108 +1,93 @@
-#!/bin/python3
+import socket
+import argparse
+import signal
+import sys
+import threading
+import logging
 
-import sys, optparse
-from optparse import Values
-from socket import *
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - [%(levelname)s] - %(message)s')
+logger = logging.getLogger(__name__)
+ok = True
 
-class Connection:
+def write_data(socket):
+    while ok:
+        data = sys.stdin.readline()
+        if not data:
+            break
+        socket.send(data.encode('utf-8'))
 
-        MAX_CONNECTIONS:int = 3 # Cantidad máxima de connexiones simultáneas a escuchar
-        DEFAULT_TIMEOUT:int = 10 # Tiempo que se quedará escuchando por conexiónes
-        IP:str
-        PORT:int
-        VERBOSE:bool
-        buff:str = ""
-        sock:socket
+def read_data(socket):
+    while ok:
+        data = socket.recv(4096)
+        if not data:
+            break
+        sys.stdout.write(data.decode('utf-8'))
+        sys.stdout.flush()
 
-        def __init__(self, verbose, ip, port):
-                self.VERBOSE = verbose
+def run_server(host, port):
+    server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    reader = None
+    client_socket = None
+    try:
+        server.bind((host, port))
+        server.listen(5)
+        logger.info(f"Listening on {host}:{port}")
 
-                # AF_INET -> IpV4
-                # SOCK_STREAM -> TCP
-                self.sock = socket(AF_INET, SOCK_STREAM)
-                self.IP = ip
-                self.PORT = port
-
-        # Manda datos
-        def send_data(self, msg):
-                self.sock.connect((self.IP, self.PORT))
-                if self.VERBOSE: print(f"Conectado a {self.IP}:{self.PORT}")
-
-                self.sock.send(msg)
-                self.close()
-
-        # Recive datos
-        def recv_data(self):
-                # 'bind' enlaza la dirección IP a el puerto especificado (otros procesos en el sistema no podrán usar esa dirección)
-                self.sock.bind((self.IP, self.PORT))
-                self.sock.listen(self.MAX_CONNECTIONS)
-                self.sock.settimeout(self.DEFAULT_TIMEOUT)
-                if self.VERBOSE: print(f"Escuchando en {self.IP}:{self.PORT} ...")
-
-                # Retorna otro socket enlazado a la conexión, junto con su dirección
-                conn, addr = self.sock.accept()
-                if self.VERBOSE: print(f"Conexión desde {addr[0]}:{addr[1]}")
-
-                while True:
-                        data = conn.recv(1024)
-                        sys.stdout.buffer.write(data)
-
-        def close(self):
-                self.sock.close()
-
-# Manipulo los parámetros pasados al script
-def parse_options() -> (Values, list[str]):
-        # DEFAULT_IP = gethostbyname(gethostname())
-        DEFAULT_IP = '0.0.0.0'
-        DEFAULT_PORT = 8080
-
-        parser = optparse.OptionParser()
-        parser.add_option('-H', dest='ip', type='str', help='IP de destino', default=DEFAULT_IP)
-        parser.add_option('-p', dest='port', type='int', help='Puerto de destino', default=DEFAULT_PORT)
-        parser.add_option('-m', dest='msg', type='str', help='Mensaje a enviar')
-        parser.add_option('-t', dest='conn_type', type='str', help='Tipo de conexión (send, recv)', default='send')
-        parser.add_option('-v', dest='verbose', action='store_true', default=False, help='Verbosidad')
+        client_socket, _ = server.accept()
+        logger.info(f"Accepted connection from {client_socket.getpeername()[0]}:{client_socket.getpeername()[1]}")
         
-        return parser.parse_args()
+        reader = threading.Thread(target=read_data, args=(client_socket,))
+        writer = threading.Thread(target=write_data, args=(client_socket,))
+
+        reader.start()
+        writer.start()
+    except Exception as e:
+        logger.error(f"{e}")
+    finally:
+        if reader:
+            reader.join()
+        if client_socket != None:
+            client_socket.close()
+        server.close()
+
+def run_client(host, port):
+    client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    reader = None
+    try:
+        client.connect((host, port))
+        logger.info(f"Connected to {host}:{port}")
+
+        writer = threading.Thread(target=write_data, args=(client,))
+        reader = threading.Thread(target=read_data, args=(client,))
+        
+        writer.start()
+        reader.start()
+    except Exception as e:
+        logger.error(f"{e}")
+    finally:
+        if reader != None:
+            reader.join()
+        client.close()
+
+def terminar(signal, frame):
+    logger.info("Connection terminated: EOF")
+    global ok
+    ok = False
+    sys.exit(0)
 
 def main():
-        (opt, args) = parse_options()
-        
-        conn:Connection
+    parser = argparse.ArgumentParser(description='Simple Netcat-like Python Script')
+    parser.add_argument('-l', '--listen', action='store_true', help='Listen mode')
+    parser.add_argument('-p', '--port', type=int, default=8080, help='Port to connect or bind to')
+    parser.add_argument('-H', '--host', default='localhost', help='Host to connect to')
+    args = parser.parse_args()
 
-        try:
-                conn = Connection(opt.verbose, opt.ip, opt.port)
+    signal.signal(signal.SIGINT, terminar)
 
-                if opt.conn_type == 'send':
-                        if opt.msg == None:
-                                # En caso de usar pipes. Ej: `cat imagen.jpg | python3 sockets.py -t send`
-                                data = sys.stdin.buffer.read()
-                        else:
-                                # En caso de usar la flag `-m`
-                                data = opt.msg
-
-                        try:
-                                conn.send_data(data.encode())
-                        except:
-                                conn.send_data(data)
-                elif opt.conn_type == 'recv':
-                        conn.recv_data()
-
-                        # try:
-                        #         # En caso de que el mensaje sea texto plano
-                        #         print(msg.decode('utf-8'))
-                        # except:
-                        #         # En caso de que el mensaje sea un archivo, ej: una foto, pdf
-                        #         sys.stdout.buffer.write(msg)
-                else:
-                        print("No existe ese tipo de conexión!")
-
-                conn.close()
-        except KeyboardInterrupt as ki:
-                print(ki)
-                exit(1)
-        finally:
-                conn.close()
+    if args.listen:
+        run_server(args.host, args.port)
+    else:
+        run_client(args.host, args.port)
 
 if __name__ == '__main__':
-        main()
+    main()
