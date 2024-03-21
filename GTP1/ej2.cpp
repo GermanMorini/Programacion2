@@ -1,29 +1,21 @@
-#include<iostream>
+#include <iostream>
+#include "ej2_lib.h"
 
 using namespace std;
 
-
-
-int calcular(int A, int B, int K) {
-    int contador = 0;
-    for (A; A <= B; A++) {
-        contador += (A%K == 0);
-    }
-
-    return contador;
-}
-
-int main() {
+int main(int argc, char *argv[]) {
     int A,B,K;
 
-    cout << "Ingrese el limite inferior: ";
-    cin >> A;
-    cout << "Ingrese el limite superior: ";
-    cin >> B;
-    cout << "Ingrese el divisor: ";
-    cin >> K;
+    if (argc != 4) {
+        cout << "Uso: " << argv[0] << " INFERIOR SUPERIOR DIVISOR" << endl;
+        return 1;
+    }
 
-    cout << "La cantidad de numeros divisobles por " << K << " es " << calcular(A, B, K) << endl;
+    A = atoi(argv[1]);
+    B = atoi(argv[2]);
+    K = atoi(argv[3]);
+
+    cout << "La cantidad de numeros divisibles por " << K << " es " << calcular(A, B, K) << endl;
     
     return 0;
 }

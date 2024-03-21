@@ -1,43 +1,19 @@
-#include<iostream>
+#include <iostream>
+#include "ej5_lib.h"
 
 using namespace std;
 
-bool es_primo(int n) {
-    for (int i = 2; i < n; i++) {
-        if (n%i == 0) return false;
-    }
-
-    return true;
-}
-
-int obtener_divisores(int n, int div[100]) {
-    int contador = 0;
-
-    for (int i = 2; i < n; i++) {
-        if (es_primo(i) and n%i == 0) div[contador++] = i;
-    }
-
-    return contador;
-}
-
-bool comparar(int a1[100], int a2[100], int len1, int len2) {
-    if (len1 != len2) return false;
-
-    for (int i = 0; i < len1; i++) {
-        if (a1[i] != a2[i]) return false;
-    }
-
-    return true;
-}
-
-int main() {
+int main(int argc, char *argv[]) {
     int N, M, contador_N, contador_M;
     int divs_N[100], divs_M[100];
 
-    cout << "Ingrese el valor de N: ";
-    cin >> N;
-    cout << "Ingrese el valor de M: ";
-    cin >> M;
+    if (argc != 3) {
+        cout << "Uso: " << argv[0] << " NUM1 NUM2" << endl;
+        return 1;
+    }
+
+    N = atoi(argv[1]);
+    M = atoi(argv[2]);
 
     contador_N = obtener_divisores(N, divs_N);
     contador_M = obtener_divisores(M, divs_M);

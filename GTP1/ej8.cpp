@@ -1,35 +1,22 @@
-#include<iostream>
-#include<cmath>
+#include <iostream>
+#include "ej8_lib.h"
 
 using namespace std;
 
-void leer_coeficientes(int grado, int coef[100]) {
-    for (int i = 0; i < grado; i++) {
-        cout << "Ingrese el coeficiente " << i+1 << ": ";
-        cin >> coef[i];
-    }
-}
-    
-double evaluar(int x, int grado, int coef[100]) {
-    double res = 0;
-
-    for (int i = 0; i < grado; i++) {
-        res += coef[i] * pow(x, i);
-    }
-
-    return res;
-}
-
-int main() {
+int main(int argc, char *argv[]) {
     int grado, x, coef[100];
 
-    cout << "Ingrese el grado del polinomio: ";
-    cin >> grado;
+    if (argc < 4) {
+        cout << "Uso: " << argv[0] << " GRADO X COEFICIENTES..." << endl;
+        return 1;
+    }
 
-    leer_coeficientes(grado, coef);
+    grado = atoi(argv[1]);
+    x = atoi(argv[2]);
 
-    cout << "Ingrese el valor al cual evaluar: ";
-    cin >> x;
+    for (int i = 3; i < argc; i++) {
+        coef[i-3] = atoi(argv[i]);
+    }
 
     cout << "El resultado es: " << evaluar(x, grado, coef) << endl;
 

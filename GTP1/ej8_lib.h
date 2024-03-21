@@ -1,0 +1,1 @@
+double evaluar(int x, int grado, int coef[100]);

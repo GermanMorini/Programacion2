@@ -1,21 +1,19 @@
-#include <cstdio>
-#include<iostream>
+#include <cstring>
+#include <iostream>
+#include "ej5_lib.h"
 
 using namespace std;
 
-void mayusculizar(char s[11]) {
-    for (int i = 0; i < 10; i++) {
-        if (s[i] >= 97 and s[i] <= 122) {
-            s[i] -= 32;
-        }
+int main(int argc, char *argv[]) {
+    if (argc != 2 or strlen(argv[1]) > 10) {
+        cout << "Uso: " << argv[0] << " STRING" << endl;
+        cout << "STRING de largo 10" << endl;
+        exit(1);
     }
-}
+    
+    char *s = new char[strlen(argv[1])];
+    s = argv[1];
 
-int main() {
-    char s[11];
-
-    cout << "Ingrese una cadena: ";
-    scanf("%10s", s);
     mayusculizar(s);
 
     cout << s << endl;

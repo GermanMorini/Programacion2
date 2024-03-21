@@ -1,23 +1,18 @@
 #include<iostream>
+#include "ej3_lib.h"
 
 using namespace std;
 
-// creditos: ChatGPT
-int mcd(int M, int N) {
-    if (N == 0) {
-        return M;
-    } else {
-        return mcd(N, M%N);
-    }
-}
-
-int main() {
+int main(int argc, char *argv[]) {
     int M, N;
 
-    cout << "Ingrese el Nro 1: ";
-    cin >> M;
-    cout << "Ingrese el Nro 2: ";
-    cin >> N;
+    if (argc != 3) {
+        cout << "Uso: " << argv[0] << " NUM1 NUM2" << endl;
+        return 1;
+    }
+
+    M = atoi(argv[1]);
+    N = atoi(argv[2]);
 
     cout << "El MCD es: " << mcd(M, N) << endl;
     

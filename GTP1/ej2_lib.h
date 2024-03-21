@@ -1,0 +1,1 @@
+int calcular(int A, int B, int K);
