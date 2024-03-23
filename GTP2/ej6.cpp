@@ -3,15 +3,15 @@
 
 using namespace std;
 
-void ritrevni(char s[]) {
-    char *rtn = new char[strlen(s)];
+char* ritrevni(char s[]) {
+    int l = strlen(s);
+    char* rtn = new char[l];
 
-    for (int i = 0; i < strlen(s); i++) {
-        rtn[i] = s[strlen(s) - i - 1];
+    for (int i = 0; i < l; i++) {
+        rtn[i] = s[l - i - 1];
     }
 
-    strcpy(s, rtn);
-    delete [] rtn;
+    return rtn;
 }
 
 int main(int argc, char *argv[]) {
@@ -20,12 +20,8 @@ int main(int argc, char *argv[]) {
         cout << "Largo de STRING < 50" << endl;
         return 1;
     }
-
-    char *s = new char[strlen(argv[1])];
-
-    ritrevni(s);
-
-    cout << *s << endl;
+    char* s = ritrevni(argv[1]);
+    cout << s << endl;
     
     delete [] s;
     return 0;
