@@ -1,3 +1,4 @@
+#include <cstdlib>
 #include <iostream>
 
 using namespace std;
@@ -75,7 +76,10 @@ class Fecha {
             while (dia > dias_en_un_mes(mes)) {
                 dia -= dias_en_un_mes(mes);
                 mes++;
-                if (mes > 12) anio++;
+                if (mes > 12) {
+                    anio++;
+                    mes = 1;
+                }
             }
         }
 
@@ -85,20 +89,25 @@ class Fecha {
             while (dia < 1) {
                 dia += dias_en_un_mes(mes-1);
                 mes--;
-                if (mes < 1) anio--;
+                if (mes < 1) {
+                    anio--;
+                    mes = 12;
+                }
             }
         }
 };
 
-int main() {
+int main(int argc, char *argv[]) {
+    if (argc != 4) {
+        cout << "Uso: " << argv[0] << " DIA MES AÑO" << endl;
+        exit(1);
+    }
+
     int dia, mes, anio;
 
-    cout << "Ingrese el dia: ";
-    cin >> dia;
-    cout << "Ingrese el mes: ";
-    cin >> mes;
-    cout << "Ingrese el anio: ";
-    cin >> anio;
+    dia = atoi(argv[1]);
+    mes = atoi(argv[2]);
+    anio = atoi(argv[3]);
 
     Fecha f(dia, mes, anio);
 
