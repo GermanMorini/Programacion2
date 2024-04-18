@@ -4,14 +4,12 @@
 
 using namespace std;
 
-int main() {
-    int n, d;
-
-    cout << "Ingrese el numerador: ";
-    cin >> n;
-
-    cout << "Ingrese el denominador: ";
-    cin >> d;
+int main(int argc, char* argv[]) {
+    if (argc < 3) {
+        cout << "Uso: " << argv[0] << " NUMERADOR DENOMINADOR" << endl;
+        return 1;
+    }
+    int n = atoi(argv[1]), d = atoi(argv[2]);
 
     Racional r1(n, d);
     Racional r2(3, 2);

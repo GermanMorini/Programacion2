@@ -1,37 +1,26 @@
-#include <cstring>
 #include <iostream>
+#include "ej8_lib.h"
 
 using namespace std;
 
-class Persona {
-    public:
-        Persona();
+int main(int argc, char* argv[]) {
+    if (argc != 4 and argc != 8) {
+        cout << "Uso:" << endl;
+        cout << "\t" << argv[0] << " NOMBRE EDAD SEXO" << endl;
+        cout << "\t" << argv[0] << " NOMBRE SEXO NACIMIENTO PESO ALTURA DNI" << endl;
+        cout << "NACIMIENTO: dia mes anio" << endl;
+        return 1;
+    }
 
-        Persona(char n[32], int ed, char s) {
-            strcpy(nombre, n);
-            edad = ed;
-            sexo = s;
-        }
+    Persona p;
 
-        float calcularIMC() {
-            return peso*1.0/(altura*altura);
-        }
+    if (argc == 4) {
+        p.setNombre(argv[1]);
+        p.setEdad(atoi(argv[2]));
+        p.setSexo((char) argv[3]);
+    } else {
 
-        int calcularEdad() {
-            return 
-        }
-
-        bool esMayorDeEdad() {
-            return edad >= 18;
-        }
-    private:
-        char nombre[32];
-        // Fecha nacimiento
-        int dni, edad, peso, altura;
-        char sexo;
-};
-
-int main() {
+    }
     
     return 0;
 }
