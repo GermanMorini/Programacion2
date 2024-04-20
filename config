@@ -8,9 +8,8 @@ function cmpExe() {
 #     Para compilar sin librerias
 # 	g++ -o "./exec/${1%.*}" $* && "./exec/${1%.*}"
 
-
 #     Para compilar junto con las librerias
-    g++ -Wall -o exec/$1 $1* && ./exec/$1 ${@:2}
+    g++ -Wall -o exec/$1 $1*.{h,cpp} && ./exec/$1 ${@:2}
 }
 
 function plantillar() {
