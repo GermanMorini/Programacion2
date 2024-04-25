@@ -16,6 +16,6 @@ class Matrix {
 
         std::string toString();
     private:
-        int** data;
+        int** values;
         int rows, cols;
 };
