@@ -47,11 +47,15 @@ bool Enteros::Eliminar(int n) {
 }
 
 void Enteros::Mostrar() {
-    cout << "{";
-    for (int i = 0; i < N-1; i++) {
-        cout << valores[i] << ", ";
+    if (N > 0) {
+        cout << "{";
+        for (int i = 0; i < N-1; i++) {
+            cout << valores[i] << ", ";
+        }
+        cout << valores[N-1] << "}" << endl;
+    } else {
+        cout << "{}" << endl;
     }
-    cout << valores[N-1] << "}" << endl;
 }
 
 Enteros Enteros::operator+(Enteros e) {
@@ -68,7 +72,12 @@ Enteros Enteros::operator*(Enteros e) {
     Enteros res(max);
 
     for (int i = 0; i < N; i++) {
-        if (this->presente(e.valores[i])) res.Agregar(e.valores[i]);
+        for (int j = 0; j < e.N; j++) {
+            if (valores[i] == e.valores[j]) {
+                res.Agregar(valores[i]);
+                break;
+            }
+        }
     }
 
     return res;

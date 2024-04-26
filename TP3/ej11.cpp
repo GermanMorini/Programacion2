@@ -26,4 +26,5 @@ int main(int argc, char *argv[]) {
     (e2+e1).Mostrar();
     (e2-e1).Mostrar();
     (e2*e1).Mostrar();
+    (e1*e2).Mostrar();
 }
