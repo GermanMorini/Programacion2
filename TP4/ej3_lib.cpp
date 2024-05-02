@@ -9,7 +9,6 @@ Producto::Producto(string n, float p) {
 }
 
 string Producto::getNombre() {return nombre;}
-
 float Producto::getPrecio() {return precio;}
 
 Perecedero::Perecedero(string n, float p, int d) : Producto(n,p) {

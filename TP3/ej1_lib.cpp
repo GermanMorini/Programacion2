@@ -61,7 +61,7 @@ int Fecha::dias_en_un_mes(int mes) {
     case 12:
         return 31;
     default:
-        return -1;
+        return 0;
     }
 }
 

@@ -1,6 +1,5 @@
-#include "ej7_lib.h"
-
 #include <iostream>
+#include "ej7_lib.h"
 
 using namespace std;
 
