@@ -7,12 +7,15 @@ struct Materia {
 
 class Docente : public Persona {
     public:
-        Docente(string a, string *n, int d, string m, string t);
+        Docente();
+        Docente(string a, string n, int d, string m, string t);
 
         Materia getMateria();
 
         void anotarMateria(Materia m);
+
+        string toString() override;
     private:
         string titulo;
-        Materia materia;
+        Materia materia; // TODO: ver como es lo del inciso de la materia
 };

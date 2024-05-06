@@ -1,18 +1,12 @@
-#include "ej8_lib.h"
 #include <cstring>
+#include <iostream>
+#include <string>
+#include "ej8_lib.h"
 
 Fecha HOY = {18,4,2024};
 
-Persona::Persona(char* n, int ed, char s) {
-    strcpy(datos.nombre, n);
-    datos.edad = ed;
-    datos.nacimiento = HOY;
-    datos.nacimiento.anio -= ed;
-    datos.sexo = s;
-}
-
-Persona::Persona(char* n, int ed, char s, ) {
-    strcpy(datos.nombre, n);
+Persona::Persona(string n, int ed, char s) {
+    datos.nombre = n;
     datos.edad = ed;
     datos.nacimiento = HOY;
     datos.nacimiento.anio -= ed;
@@ -35,22 +29,18 @@ bool Persona::esMayorDeEdad() {
     return datos.edad >= 18;
 }
 
-char* Persona::toString() {
-    char* str = new char[100];
-    sprintf(str, "Nombre: %s\nEdad: %d\nSexo: %c\nFecha de nacimiento: %d/%d/%d\nPeso: %.2f\nAltura: %.2f", 
-            datos.nombre,
-            datos.edad,
-            datos.sexo,
-            datos.nacimiento.dia,
-            datos.nacimiento.mes,
-            datos.nacimiento.anio,
-            datos.peso,
-            datos.altura
-    );
+string Persona::toString() {
+    string str =
+        "Nombre: " + datos.nombre +
+        "\nEdad: " + to_string(datos.edad) + 
+        "\nSexo: " + datos.sexo +
+        "\nFecha de nacimiento: " + datos.nacimiento.dia+"/"+datos.nacimiento.mes+"/"+datos.nacimiento.anio +
+        "\nPeso: " + datos.peso +
+        "\nAltura: " + datos.altura;
     return str;
 }
 
-char* Persona::getNombre() {return datos.nombre;}
+string Persona::getNombre() {return datos.nombre;}
 char Persona::getSexo() {return datos.sexo;}
 int Persona::getDni() {return datos.dni;}
 float Persona::getPeso() {return datos.peso;}
@@ -58,7 +48,7 @@ float Persona::getAltura() {return datos.altura;}
 int Persona::getEdad() {return datos.edad;}
 Fecha Persona::getNacimiento() {return datos.nacimiento;}
 
-void Persona::setNombre(char* n) {datos.nombre = n;}
+void Persona::setNombre(string n) {datos.nombre = n;}
 void Persona::setSexo(char s) {datos.sexo = s;}
 void Persona::setDni(int d) {datos.dni = d;}
 void Persona::setPeso(float p) {datos.peso = p;}

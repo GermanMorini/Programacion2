@@ -1,7 +1,6 @@
 class Fecha {
     public:
-        Fecha();
-        Fecha(int dia, int mes, int anio);
+        Fecha(int dia=1, int mes=1, int anio=1900);
 
         void operator++();
         void operator--();

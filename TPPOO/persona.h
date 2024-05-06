@@ -4,19 +4,20 @@ using namespace std;
 
 class Persona {
     public:
-        Persona(string a, string *n, int d, string m);
+        Persona(string a, string n, int d, string m);
 
         string getApellido();
-        string* getNombres();
+        string getNombre();
         int getDNI();
         string getMail();
 
         void setApellido(string a);
-        void setNombres(string *n);
+        void setNombre(string n);
         void setDNI(int d);
         void setMail(string m);
+
+        virtual string toString();
     private:
-        string apellido, mail;
-        string* nombres;
+        string nombre, apellido, mail;
         int dni;
 };

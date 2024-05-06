@@ -4,12 +4,6 @@
 
 using namespace std;
 
-Fecha::Fecha() {
-  dia = 1;
-  mes = 1;
-  anio = 1900;
-}
-
 Fecha::Fecha(int dia, int mes, int anio) {
     this->anio = anio;
 

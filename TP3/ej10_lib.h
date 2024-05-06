@@ -2,7 +2,7 @@
 
 class Matrix {
     public:
-        Matrix(int** mat);
+        Matrix(Matrix &mat);
         Matrix(int r, int c, bool random);
 
         int getRows();

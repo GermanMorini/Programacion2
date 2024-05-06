@@ -9,40 +9,30 @@ Punto::Punto(float x, float y) {
     this->y = y;
 }
 
-Punto& Punto::operator++() {
+void Punto::operator++() {
     x += 1;
     y += 1;
-    return *this;
 }
 
-Punto& Punto::operator--() {
+void Punto::operator--() {
     x -= 1;
     y -= 1;
-    return *this;
 }
 
-Punto& Punto::operator+(Punto p) {
-    x += p.x;
-    y += p.y;
-    return *this;
+Punto Punto::operator+(Punto p) {
+    return Punto(x + p.x, y + p.y);
 }
 
-Punto& Punto::operator-(Punto p) {
-    x -= p.x;
-    y -= p.y;
-    return *this;
+Punto Punto::operator-(Punto p) {
+    return Punto(x - p.x, y - p.y);
 }
 
-Punto& Punto::operator+(int n) {
-    x += n;
-    y += n;
-    return *this;
+Punto Punto::operator+(int n) {
+    return Punto(x + n, y + n);
 }
 
-Punto& Punto::operator-(int n) {
-    x -= n;
-    y -= n;
-    return *this;
+Punto Punto::operator-(int n) {
+    return Punto(x - n, y - n);
 }
 
 char* Punto::coorPolares() {

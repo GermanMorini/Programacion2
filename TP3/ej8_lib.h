@@ -1,9 +1,13 @@
+#include <iostream>
+
+using namespace std;
+
 struct Fecha {
     int dia, mes, anio;
 };
 
 struct Datos {
-    char* nombre;
+    string nombre;
     char sexo;
     int dni;
     float peso, altura;
@@ -13,9 +17,7 @@ struct Datos {
 
 class Persona {
     public:
-        Persona();
-
-        Persona(char* n, int ed, char s);
+        Persona(string n, int ed, char s);
 
         float calcularIMC();
 
@@ -23,9 +25,9 @@ class Persona {
 
         bool esMayorDeEdad();
 
-        char* toString();
+        string toString();
 
-        char* getNombre();
+        string getNombre();
         char getSexo();
         int getDni();
         float getPeso();
@@ -33,7 +35,7 @@ class Persona {
         int getEdad();
         Fecha getNacimiento();
         
-        void setNombre(char* n);
+        void setNombre(string n);
         void setSexo(char s);
         void setDni(int d);
         void setPeso(float p);

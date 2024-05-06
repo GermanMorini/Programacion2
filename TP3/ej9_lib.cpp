@@ -8,12 +8,12 @@ Vector::Vector(int l) {
     arr = new int[l];
 }
 
-Vector::Vector(int nums[]) {
-    largo = sizeof(*nums) / sizeof(nums[0]);
+Vector::Vector(Vector &v) {
+    largo = v.largo;
     arr = new int[largo];
 
     for (int i = 0; i < largo; i++) {
-        arr[i] = nums[i];
+        arr[i] = v.arr[i];
     }
 }
 
@@ -48,6 +48,10 @@ int& Vector::operator[](int i) {
 
 int Vector::getLargo() {
     return largo;
+}
+
+int* Vector::getElements() {
+    return arr;
 }
 
 string Vector::toString() {

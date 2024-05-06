@@ -9,21 +9,21 @@ using namespace std;
 int MIN = 0;
 int MAX = 5;
 
-Matrix::Matrix(int** mat) {
-    rows = sizeof(**mat) / sizeof(*mat[0]);
-    cols = sizeof(*mat[0]) / sizeof(mat[0][0]);
+Matrix::Matrix(Matrix &mat) {
+    rows = mat.rows;
+    cols = mat.cols;
     values = new int*[rows];
 
     for (int i = 0; i < rows; i++) {
         values[i] = new int[cols];
         
         for (int j = 0; j < cols; j++) {
-            values[i][j] = mat[i][j];
+            values[i][j] = mat(i, j);
         }
     }
 }
 
-// inicializa una matriz r * c con ceros, si 'random' es falso
+// si random es falso inicializa una matriz r * c con ceros
 // sino, la rellena con numeros aleatorios
 Matrix::Matrix(int r, int c, bool random) {
     rows = r;
@@ -53,13 +53,11 @@ int Matrix::getRows() {return rows;}
 int Matrix::getCols() {return cols;}
 
 Matrix Matrix::operator+(Matrix m) {
-    if (rows != m.rows or cols != m.cols) return nullptr;
-
-    Matrix result(rows, cols, false);
+    Matrix result(m);
 
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < cols; j++) {
-            result(i, j) = values[i][j] + m(i, j);
+            result(i, j) += values[i][j];
         }
     }
 
@@ -67,13 +65,11 @@ Matrix Matrix::operator+(Matrix m) {
 }
 
 Matrix Matrix::operator-(Matrix m) {
-    if (rows != m.rows or cols != m.cols) return nullptr;
-
-    Matrix result(rows, cols, false);
+    Matrix result(*this);
     
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < cols; j++) {
-            result(i, j) = values[i][j] - m(i, j);
+            result(i, j) -= m(i, j);
         }
     }
 
@@ -81,8 +77,6 @@ Matrix Matrix::operator-(Matrix m) {
 }
 
 Matrix Matrix::operator*(Matrix m) {
-    if (cols != m.rows) return nullptr;
-
     Matrix result(rows, m.cols, false);
 
     for (int i = 0; i < rows; i++) {

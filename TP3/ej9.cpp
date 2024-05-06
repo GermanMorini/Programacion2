@@ -19,9 +19,11 @@ int main(int argc, char *argv[]) {
         v1[i] = atoi(argv[i+1]);
         v2[i] = MIN + rand()%(-MIN + MAX+1);
     }
+    Vector v3(v1+v2);
 
     cout << v1.toString() << endl;
     cout << v2.toString() << endl;
+    cout << v3.toString() << endl;
 
     cout << "v1 + v2 = " << (v1 + v2).toString() << endl;
     cout << "v1 - v2 = " << (v1 - v2).toString() << endl;

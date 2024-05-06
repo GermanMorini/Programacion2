@@ -1,12 +1,9 @@
 #include <cctype>
+#include <cstdlib>
 #include <iostream>
 #include "ej6_lib.h"
 
 using namespace std;
-
-Password::Password() {
-    generarPassword();
-}
 
 Password::Password(int l) {
     longitud = l;
@@ -38,14 +35,16 @@ void Password::setLongitud(int l) {
 }
 
 char Password::digitoRandom() {
-    switch (rand()%3) {
-        case 0: // numeros
-            return (char) (48 + rand()%10);
-        case 1: // mayusculas
-            return (char) (65 + rand()%26);
-        case 2: // minusculas
-            return (char) (97 + rand()%26);
-    }
+    // switch (rand()%3) {
+    //     case 0: // numeros
+    //         return (char) (48 + rand()%10);
+    //     case 1: // mayusculas
+    //         return (char) (65 + rand()%26);
+    //     case 2: // minusculas
+    //         return (char) (97 + rand()%26);
+    // }
+
+    return DIGITOS[rand()%62];
 }
 
 bool Password::validar() {

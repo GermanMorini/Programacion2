@@ -1,7 +1,8 @@
+#include <iostream>
+
 class Password {
     public:
-        Password();
-        Password(int l);
+        Password(int l=8);
 
         void generarPassword();
 
@@ -12,8 +13,9 @@ class Password {
         void setLongitud(int l);
 
     private:
-        int longitud = 8;
+        int longitud;
         char* contrasenia;
+        std::string DIGITOS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
         char digitoRandom();
         bool validar();

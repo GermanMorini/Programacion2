@@ -3,9 +3,10 @@
 class Vector {
     public:
         Vector(int n);
-        Vector(int nums[]);
+        Vector(Vector &v);
 
         int getLargo();
+        int* getElements();
 
         Vector operator+(Vector v);
         Vector operator-(Vector v);
