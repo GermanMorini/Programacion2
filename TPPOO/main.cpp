@@ -109,6 +109,15 @@ int main() {
 
                 break;
             case 5:
+                if (not docente_registrado) {
+                    cout << "Primero debés registrar un docente!" << endl << endl;
+                    break;
+                }
+                if (not materia_registrada) {
+                    cout << "Primero debés registrar una materia!" << endl << endl;
+                    break;
+                }
+
                 cout << "¿A quién le deseas modificar los datos? [1: docente] ; [2: alumno]" << endl;
                 cin >> opt2;
 
